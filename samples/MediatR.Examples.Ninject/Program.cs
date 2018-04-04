@@ -41,7 +41,6 @@ namespace MediatR.Examples.Ninject
             kernel.Bind(typeof(INotificationHandler<>)).To(typeof(ConstrainedPingedHandler<>)).WhenNotificationMatchesType<Pinged>();
 
             kernel.Bind(typeof(RequestProcessor<,>)).To(typeof(RequestProcessor<,>));
-            kernel.Bind(typeof(RequestProcessor<>)).To(typeof(RequestProcessor<>));
             kernel.Bind(typeof(NotificationProcessor<>)).To(typeof(NotificationProcessor<>));
 
             kernel.Bind<SingleInstanceFactory>().ToMethod(ctx => t => ctx.Kernel.TryGet(t));

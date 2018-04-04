@@ -17,7 +17,7 @@ namespace MediatR.Tests
             public string Message { get; set; }
         }
 
-        public class PingHandler : IRequestHandler<Ping>
+        public class PingHandler : RequestHandler<Ping>
         {
             private readonly TextWriter _writer;
 
@@ -26,7 +26,7 @@ namespace MediatR.Tests
                 _writer = writer;
             }
 
-            public Task Handle(Ping request, CancellationToken cancellationToken)
+            protected override Task Handle(Ping request)
             {
                 return _writer.WriteAsync(request.Message + " Pong");
             }

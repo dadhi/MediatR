@@ -61,9 +61,9 @@ namespace MediatR.Tests
             }
         }
 
-        public class VoidNullPingHandler : IRequestHandler<VoidNullPing>
+        public class VoidNullPingHandler : RequestHandler<VoidNullPing>
         {
-            public Task Handle(VoidNullPing request, CancellationToken cancellationToken)
+            protected override Task Handle(VoidNullPing request)
             {
                 return Task.FromResult(0);
             }
@@ -74,7 +74,6 @@ namespace MediatR.Tests
             var container = new Container(cfg =>
             {
                 cfg.For(typeof(RequestProcessor<,>)).Use(typeof(RequestProcessor<,>));
-                cfg.For(typeof(RequestProcessor<>)).Use(typeof(RequestProcessor<>));
                 cfg.For(typeof(NotificationProcessor<>)).Use(typeof(NotificationProcessor<>));
 
                 cfg.For<SingleInstanceFactory>().Use<SingleInstanceFactory>(ctx => ctx.GetInstance);

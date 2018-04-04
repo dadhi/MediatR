@@ -50,7 +50,6 @@ namespace MediatR.Examples.LightInject
             serviceContainer.Register(typeof(IRequestPreProcessor<>), typeof(GenericRequestPreProcessor<>));
 
             serviceContainer.Register(typeof(RequestProcessor<,>));
-            serviceContainer.Register(typeof(RequestProcessor<>));
             serviceContainer.Register(typeof(NotificationProcessor<>));
 
             serviceContainer.Register<SingleInstanceFactory>(fac => fac.GetInstance);

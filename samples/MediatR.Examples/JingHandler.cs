@@ -1,10 +1,9 @@
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace MediatR.Examples
 {
-    public class JingHandler : IRequestHandler<Jing>
+    public class JingHandler : RequestHandler<Jing>
     {
         private readonly TextWriter _writer;
 
@@ -13,7 +12,7 @@ namespace MediatR.Examples
             _writer = writer;
         }
 
-        public Task Handle(Jing request, CancellationToken cancellationToken)
+        protected override Task Handle(Jing request)
         {
             return _writer.WriteLineAsync($"--- Handled Jing: {request.Message}, no Jong");
         }

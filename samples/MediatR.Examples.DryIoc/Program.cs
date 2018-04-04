@@ -24,7 +24,7 @@ namespace MediatR.Examples.DryIoc
             container.UseInstance<TextWriter>(writer);
 
             container.Register(typeof(RequestProcessor<,>));
-            container.Register(typeof(RequestProcessor<>));
+            //container.Register(typeof(RequestProcessor<>));
             container.Register(typeof(NotificationProcessor<>));
 
             //Pipeline works out of the box here

@@ -36,18 +36,8 @@ namespace MediatR
             return handler.Handle(request, cancellationToken);
         }
 
-        public Task Send(IRequest request, CancellationToken cancellationToken = default(CancellationToken))
-        {
-            if (request == null)
-            {
-                throw new ArgumentNullException(nameof(request));
-            }
-
-            var handlerType = typeof(RequestProcessor<>).MakeGenericType(request.GetType());
-            var handler = (UntypedRequestProcessor<Unit>)_singleInstanceFactory(handlerType);
-
-            return handler.Handle(request, cancellationToken);
-        }
+        public Task Send(IRequest request, CancellationToken cancellationToken = default(CancellationToken)) =>
+            Send(((IRequest<Unit>)request), cancellationToken);
 
         public Task Publish<TNotification>(TNotification notification, CancellationToken cancellationToken = default(CancellationToken))
             where TNotification : INotification

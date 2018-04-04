@@ -31,7 +31,6 @@ namespace MediatR.Examples.AspNetCore
             services.AddScoped(typeof(IRequestPostProcessor<,>), typeof(GenericRequestPostProcessor<,>));
 
             services.AddScoped(typeof(RequestProcessor<,>));
-            services.AddScoped(typeof(RequestProcessor<>));
             services.AddScoped(typeof(NotificationProcessor<>));
 
             //This causes a type load exception. https://github.com/jbogard/MediatR.Extensions.Microsoft.DependencyInjection/issues/12

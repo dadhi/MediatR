@@ -35,7 +35,6 @@ namespace MediatR.Examples.Unity
             container.RegisterType(typeof(IRequestPostProcessor<,>), typeof(ConstrainedRequestPostProcessor<,>), "ConstrainedRequestPostProcessor");
 
             container.RegisterType(typeof(RequestProcessor<,>), typeof(RequestProcessor<,>));
-            container.RegisterType(typeof(RequestProcessor<>), typeof(RequestProcessor<>));
             container.RegisterType(typeof(NotificationProcessor<>), typeof(NotificationProcessor<>));
 
             // Unity doesn't support generic constraints

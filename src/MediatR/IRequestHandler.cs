@@ -55,6 +55,11 @@ namespace MediatR
         /// <param name="request">Request</param>
         /// <returns>Response</returns>
         protected abstract Task HandleCore(TRequest request);
+
+        Task<Unit> IRequestHandler<TRequest, Unit>.Handle(TRequest request, CancellationToken cancellationToken)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 
     /// <summary>
@@ -66,14 +71,14 @@ namespace MediatR
         where TRequest : IRequest<TResponse>
     {
         public Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken)
-            => Task.FromResult(HandleCore(request));
+            => Task.FromResult(Handle(request));
 
         /// <summary>
         /// Override in a derived class for the handler logic
         /// </summary>
         /// <param name="request">Request</param>
         /// <returns>Response</returns>
-        protected abstract TResponse HandleCore(TRequest request);
+        protected abstract TResponse Handle(TRequest request);
     }
 
     /// <summary>
@@ -83,20 +88,23 @@ namespace MediatR
     public abstract class RequestHandler<TRequest> : IRequestHandler<TRequest>
         where TRequest : IRequest
     {
-        public Task Handle(TRequest request, CancellationToken cancellationToken)
+        public Task Handle(TRequest request, CancellationToken cancellationToken) =>
+            ((IRequestHandler<TRequest, Unit>)this).Handle(request, cancellationToken);
+
+        async Task<Unit> IRequestHandler<TRequest, Unit>.Handle(TRequest request, CancellationToken cancellationToken)
         {
-            HandleCore(request);
-            return Unit.Task;
+            await Handle(request);
+            return Unit.Value;
         }
 
-        protected abstract void HandleCore(TRequest request);
+        protected abstract Task Handle(TRequest request);
     }
 
     /// <summary>
     /// Defines a handler for a request without a return value
     /// </summary>
     /// <typeparam name="TRequest">The type of request being handled</typeparam>
-    public interface IRequestHandler<in TRequest>
+    public interface IRequestHandler<in TRequest> : IRequestHandler<TRequest, Unit>
         where TRequest : IRequest
     {
         /// <summary>
@@ -104,6 +112,6 @@ namespace MediatR
         /// </summary>
         /// <param name="request">The request</param>
         /// <param name="cancellationToken">Cancellation token</param>
-        Task Handle(TRequest request, CancellationToken cancellationToken);
+        new Task Handle(TRequest request, CancellationToken cancellationToken);
     }
 }

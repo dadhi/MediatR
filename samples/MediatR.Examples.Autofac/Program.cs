@@ -49,7 +49,6 @@ namespace MediatR.Examples.Autofac
             builder.RegisterGeneric(typeof(ConstrainedPingedHandler<>)).As(typeof(INotificationHandler<>));
 
             builder.RegisterGeneric(typeof(RequestProcessor<,>)).AsSelf();
-            builder.RegisterGeneric(typeof(RequestProcessor<>)).AsSelf();
             builder.RegisterGeneric(typeof(NotificationProcessor<>)).AsSelf();
 
             builder.Register<SingleInstanceFactory>(ctx =>

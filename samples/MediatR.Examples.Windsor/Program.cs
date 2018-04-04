@@ -42,7 +42,6 @@ namespace MediatR.Examples.Windsor
             container.Register(Component.For(typeof(INotificationHandler<>), typeof(ConstrainedPingedHandler<>)).NamedAutomatically("ConstrainedPingedHandler"));
 
             container.Register(Component.For(typeof(RequestProcessor<,>)));
-            container.Register(Component.For(typeof(RequestProcessor<>)));
             container.Register(Component.For(typeof(NotificationProcessor<>)));
 
             var mediator = container.Resolve<IMediator>();

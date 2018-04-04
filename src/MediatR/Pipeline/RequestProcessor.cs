@@ -29,24 +29,4 @@ namespace MediatR.Pipeline
                     (next, behavior) => () => behavior.Handle((TRequest)request, cancellationToken, next))
                 .Invoke();
     }
-
-    // todo: It would be possible to drop this specialization if only IRequestHandler<TRequest> was implementing IRequestHandler<TRequest, Unit
-    // or if major containers (StructureMap) supported matching registered `VoidRequestHandlerAdapter<TRequest>` with `IRequestHandler<TRequest, Unit>`
-    public class RequestProcessor<TRequest> : RequestProcessor<TRequest, Unit>
-        where TRequest : IRequest
-    {
-        public RequestProcessor(IRequestHandler<TRequest> requestHandler, IEnumerable<IPipelineBehavior<TRequest, Unit>> pipelineBehaviors)
-            : base(new HandlerAdapter(requestHandler), pipelineBehaviors) { }
-
-        private sealed class HandlerAdapter : IRequestHandler<TRequest, Unit>
-        {
-            private readonly IRequestHandler<TRequest> _adapted;
-            public HandlerAdapter(IRequestHandler<TRequest> adapted) => _adapted = adapted;
-            public async Task<Unit> Handle(TRequest request, CancellationToken cancellationToken)
-            {
-                await _adapted.Handle(request, cancellationToken);
-                return Unit.Value;
-            }
-        }
-    }
 }

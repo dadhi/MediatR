@@ -33,7 +33,6 @@ IContainer GetContainerWithRegistrations()
         Registrator.Interfaces);
 
     container.Register(typeof(RequestProcessor<,>));
-    container.Register(typeof(RequestProcessor<>));
     container.Register(typeof(NotificationProcessor<>));
 
     return container;
@@ -47,10 +46,9 @@ ServiceInfo[] SpecifyResolutionRoots(ServiceRegistrationInfo reg)
     return
         // Close known open-generics
         type == typeof(RequestProcessor<,>) ? new []{
-            reg.ToServiceInfo<RequestProcessor<Ping, Pong>>() } :
-
-        type == typeof(RequestProcessor<>) ? new []{
-            reg.ToServiceInfo<RequestProcessor<Jing>>() } :
+            reg.ToServiceInfo<RequestProcessor<Ping, Pong>>(),
+            reg.ToServiceInfo<RequestProcessor<Jing, Unit>>()
+        } :
 
         type == typeof(NotificationProcessor<>) ? new []{
             reg.ToServiceInfo<NotificationProcessor<Pinged>>(),
